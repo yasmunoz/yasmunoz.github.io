@@ -60,17 +60,18 @@ fig = px.scatter(data_frame = penguins,
 #when the curser is hovered over points
                  hover_name = "Species",
                  hover_data = ["Island", "Sex"],
-#The size of each data point is correlated to the Body Mass of the specific penguin
+#The size of each data point is correlated to the Body Mass of the specific 
+#penguin
                  size = "Body Mass (g)",
                  size_max = 8,
                  width = 600,
                  height = 400,
                  opacity = 0.6,
- #This creates a marginal graph along the y-axis that analyzes the distributuion 
- #of Flipper length for each species of penguin using a box plot.
+ #This creates a marginal graph along the y-axis that analyzes the distri-
+ #butuion of Flipper length for each species of penguin using a box plot.
                  marginal_y = "box",
-#This is making a marginal graph on the y-axis that only shows the distributoins of 
-#Culmen Length shown in a violin graph.
+#This is making a marginal graph on the y-axis that only shows the 
+#distributoins of Culmen Length shown in a violin graph.
                  marginal_x = "violin")
 
 #reduce whitespace
