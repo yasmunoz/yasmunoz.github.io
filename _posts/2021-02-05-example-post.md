@@ -79,12 +79,12 @@ fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 #show the plot
 fig.show()
 ```
-![my_fancy_plot.html](/images/my_fancy_plot.html)
+{% include my_fancy_plot.html %}
 
 
 {::options parse_block_html="true" /}
 <div class="gave-help">
-Something that I felt I did really well on this part was the use of the `label` argument of `plt.hist()`, plus `plt.legend()`, to create a helpful label for my data. While in this case there's only one kind of data plotted, in other cases it can be really important to tell apart different data series. Additionally, it never hurts to analyze the plot more. I suggested to both of my team members that they add informative legends to their plots. 
+A thing I like about this graph is that the user is able to see the distribution of data from the x and y axis both alone in the marginal graphs and juxtaposed in the scatter plot. Another neat thing about this data visualization is the information that it carries and display when hovering over each data point. 
 </div>
 {::options parse_block_html="false" /}
 
