@@ -1,45 +1,85 @@
 ---
 layout: post
-title: Example post
+title: Blog Post 0
 ---
 
-In this post, I'll show how to create a helpful histogram of some synthetic data. 
+In this post, I'll show how to create a helpful data visualization of the penguins data set. 
 
 ## Generate Synthetic Data
 
-We'll start by generating 100,000 random numbers from the standard normal distribution. 
+We'll start by reading and cleaning the data. 
 
 ```python
-import numpy as np
-data = np.random.randn(100000) 
+import pandas as pd
+#Import the data and clean it
+url = "https://raw.githubusercontent.com/PhilChodrow/PIC16B/master/datasets/palmer_penguins.csv"
+penguins = pd.read_csv(url)
+penguins = penguins.dropna(subset = ["Body Mass (g)", "Sex"])
+penguins["Species"] = penguins["Species"].str.split().str.get(0)
+penguins = penguins[penguins["Sex"] != "."]
+
+cols = ["Species", "Island", "Sex", "Culmen Length (mm)", "Culmen Depth (mm)", "Flipper Length (mm)", "Body Mass (g)"]
+penguins = penguins[cols]
 ```
 
 {::options parse_block_html="true" /}
 <div class="got-help">
-Originally, I generated the numbers like this: 
+Originally, I only imported the data using the following code block: 
 ```python
-data = np.zeros(100000)
-for i in range(len(data)):
-    data[i] = np.random.randn()
+import pandas as pd
+url = "https://raw.githubusercontent.com/PhilChodrow/PIC16B/master/datasets/palmer_penguins.csv"
+penguins = pd.read_csv(url)
 ```
-My teammate for this assignment reminded me that the `np.random.randn()` function has an argument `size` which allows you to generate all the data in a single line of code. My approach is way better now, thanks!
+This lead me to getting an error when running my code, then I came to the realization that the data needs to be cleaned in order to avoid input errors.
 </div>
 {::options parse_block_html="false" /}
 
 ## Make the plot 
 
-Next, we can create a histogram using `matplotlib`: 
+Next, we can create a scatter plot using `matplotlib`: 
 
 ```python
-from matplotlib import pyplot as plt
-plt.hist(data, 
-         bins  = 50, 
-         color = "firebrick", 
-         alpha = 0.4, 
-         label = "fake data")
-plt.legend()
+from plotly import express as px
+import plotly.io as pio
+#I changed the template to a white plot in order to better decipher the plots
+#with no background colors.
+pio.templates.default = "plotly_white"
+#Now create a scatter plot named fig using the penguins data.
+fig = px.scatter(data_frame = penguins, 
+#I put the data from the Culmen Length column on the x-axis, but any data 
+#category you see fit works
+                 x = "Culmen Length (mm)", 
+#Now assign the y-axis to be the flipper length column of data
+                 y = "Flipper Length (mm)",
+#The plots of the data are color coordinated by Species with the legend on 
+#the upper right specifying what species correlates to what color
+                 color = "Species",
+#The hover name specifies what the title of the data point will be when you 
+#'hover' over it, and the hover data 
+#is data that the graph does not depend on, but included in individual points 
+#when the curser is hovered over points
+                 hover_name = "Species",
+                 hover_data = ["Island", "Sex"],
+#The size of each data point is correlated to the Body Mass of the specific penguin
+                 size = "Body Mass (g)",
+                 size_max = 8,
+                 width = 600,
+                 height = 400,
+                 opacity = 0.6,
+ #This creates a marginal graph along the y-axis that analyzes the distributuion 
+ #of Flipper length for each species of penguin using a box plot.
+                 marginal_y = "box",
+#This is making a marginal graph on the y-axis that only shows the distributoins of 
+#Culmen Length shown in a violin graph.
+                 marginal_x = "violin")
+
+#reduce whitespace
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+#show the plot
+fig.show()
 ```
-![image-example.png]({{ site.baseurl }}/images/example-post-histogram.png)
+![my_fancy_plot.html](/images/my_fancy_plot.html)
+
 
 {::options parse_block_html="true" /}
 <div class="gave-help">
